@@ -13,6 +13,6 @@ logging:
         SQL: DEBUG
 stripe:
   endpoint:
-    secret: whsec_4d16ea6f40cb91f4bff6366f5e0565f70f2163c559ac5d0fca87edc7f76507cc
+    secret:
   secret:
     key: 

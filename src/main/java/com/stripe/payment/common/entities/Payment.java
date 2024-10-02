@@ -1,15 +1,13 @@
 package com.stripe.payment.common.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -17,4 +15,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private String paymentIntentId;
+    private String customerId;
+    private String productId;
+    private Long amount;
+    private String currency;
+    private String type;
 }

@@ -1,5 +1,6 @@
 package com.stripe.payment.common.entities;
 
+import com.stripe.payment.common.enums.StripeEventEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,5 +21,7 @@ public class Payment {
     private String productId;
     private Long amount;
     private String currency;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    private StripeEventEnum type;
 }

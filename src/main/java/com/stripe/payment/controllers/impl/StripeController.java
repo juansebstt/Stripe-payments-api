@@ -16,6 +16,9 @@ public class StripeController implements StripeApi {
 
     @Override
     public ResponseEntity<Void> stripeWebhook(String payload, String stripeHeader) {
+        var event = stripeService.constructEvent(payload, stripeHeader);
+        stripeService.manageWebhook(event);
+
         return ResponseEntity.noContent().build();
     }
 }

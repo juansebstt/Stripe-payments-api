@@ -10,33 +10,44 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * The type Stripe strategy payment succeed.
+ */
 @Component
-public class StripeStrategyPaymentIntentSucceed implements StripeStrategy {
+public class StripeStrategyPaymentSucceed implements StripeStrategy {
 
     private final PaymentRepository paymentRepository;
 
-    public StripeStrategyPaymentIntentSucceed(PaymentRepository paymentRepository) {
+    /**
+     * Instantiates a new Stripe strategy payment succeed.
+     *
+     * @param paymentRepository the payment repository
+     */
+    public StripeStrategyPaymentSucceed(PaymentRepository paymentRepository) {
 
         this.paymentRepository = paymentRepository;
     }
 
     @Override
     public boolean isApplicable(Event event) {
+
         return StripeEventEnum.PAYMENT_INTENT_SUCCEEDED.value.equals(event.getType());
     }
 
     @Override
     public Event process(Event event) {
+
         return Optional.of(event)
                 .map(this::deserialize)
                 .map(this::mapToEntity)
                 .map(paymentRepository::save)
                 .map(given -> event)
-                .orElseThrow(() -> new RuntimeException("Error processing event"));
+                .orElseThrow(() -> new RuntimeException("Process Failed"));
     }
 
     private Payment mapToEntity(PaymentIntent paymentIntent) {
-        return  Payment.builder()
+
+        return Payment.builder()
                 .paymentIntentId(paymentIntent.getId())
                 .customerId(paymentIntent.getCustomer())
                 .amount(paymentIntent.getAmount())
@@ -46,7 +57,8 @@ public class StripeStrategyPaymentIntentSucceed implements StripeStrategy {
     }
 
     private PaymentIntent deserialize(Event event) {
+
         return (PaymentIntent) event.getDataObjectDeserializer().getObject()
-                .orElseThrow(() -> new RuntimeException("Error deserializing event"));
+                .orElseThrow(() -> new RuntimeException("Object cant be parsed"));
     }
 }

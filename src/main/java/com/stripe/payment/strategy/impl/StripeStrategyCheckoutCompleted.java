@@ -10,23 +10,35 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * The type Stripe strategy checkout completed.
+ */
 @Component
-public class StripeStrategyCheckoutSessionCompleted implements StripeStrategy {
+public class StripeStrategyCheckoutCompleted implements StripeStrategy {
 
     private final PaymentRepository paymentRepository;
 
-    public StripeStrategyCheckoutSessionCompleted(PaymentRepository paymentRepository) {
+    /**
+     * Instantiates a new Stripe strategy checkout completed.
+     *
+     * @param paymentRepository the payment repository
+     */
+    public StripeStrategyCheckoutCompleted(PaymentRepository paymentRepository) {
+
         this.paymentRepository = paymentRepository;
     }
 
     @Override
     public boolean isApplicable(Event event) {
+
         return StripeEventEnum.CHECKOUT_SESSION_COMPLETED.value.equals(event.getType());
     }
 
     @Override
     public Event process(Event event) {
+
         var session = this.deserialize(event);
+
         return Optional.of(event)
                 .map(given -> paymentRepository.findByPaymentIntentId(session.getPaymentIntent()))
                 .map(payment -> setProductId(payment, session.getMetadata().get("product_id")))
@@ -39,12 +51,13 @@ public class StripeStrategyCheckoutSessionCompleted implements StripeStrategy {
 
         payment.setProductId(productId);
         payment.setType(StripeEventEnum.CHECKOUT_SESSION_COMPLETED);
-
         return payment;
     }
 
     private Session deserialize(Event event) {
-        return (Session) event.getDataObjectDeserializer().getObject()
-                .orElseThrow(() -> new RuntimeException("Could not deserialize Session"));
+
+        return (Session) event.getDataObjectDeserializer()
+                .getObject()
+                .orElseThrow(() -> new RuntimeException("Error Deserializing"));
     }
 }

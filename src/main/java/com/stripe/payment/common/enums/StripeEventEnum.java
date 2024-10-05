@@ -2,7 +2,7 @@ package com.stripe.payment.common.enums;
 
 public enum StripeEventEnum {
 
-    PAYMENT_EVENT_SUCCEED("payment_intent.succeeded"),
+    PAYMENT_INTENT_SUCCEEDED("payment_intent.succeeded"),
     CHECKOUT_SESSION_COMPLETED("checkout.session.completed");
 
     public final String value;

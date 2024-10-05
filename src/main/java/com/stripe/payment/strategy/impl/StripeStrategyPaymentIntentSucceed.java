@@ -16,12 +16,13 @@ public class StripeStrategyPaymentIntentSucceed implements StripeStrategy {
     private final PaymentRepository paymentRepository;
 
     public StripeStrategyPaymentIntentSucceed(PaymentRepository paymentRepository) {
+
         this.paymentRepository = paymentRepository;
     }
 
     @Override
     public boolean isApplicable(Event event) {
-        return StripeEventEnum.PAYMENT_EVENT_SUCCEED.value.equals(event.getType());
+        return StripeEventEnum.PAYMENT_INTENT_SUCCEEDED.value.equals(event.getType());
     }
 
     @Override
@@ -40,7 +41,7 @@ public class StripeStrategyPaymentIntentSucceed implements StripeStrategy {
                 .customerId(paymentIntent.getCustomer())
                 .amount(paymentIntent.getAmount())
                 .currency(paymentIntent.getCurrency())
-                .type(StripeEventEnum.PAYMENT_EVENT_SUCCEED)
+                .type(StripeEventEnum.PAYMENT_INTENT_SUCCEEDED)
                 .build();
     }
 

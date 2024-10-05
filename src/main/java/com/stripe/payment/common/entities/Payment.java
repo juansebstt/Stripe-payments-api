@@ -16,6 +16,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String paymentIntentId;
     private String customerId;
     private String productId;

@@ -24,5 +24,5 @@ public class Payment {
     private String currency;
 
     @Enumerated(EnumType.STRING)
-    private StripeEventEnum type;
+    private StripeEventEnum stripeEventEnum;
 }

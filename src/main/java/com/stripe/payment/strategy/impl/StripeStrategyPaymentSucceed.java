@@ -52,7 +52,7 @@ public class StripeStrategyPaymentSucceed implements StripeStrategy {
                 .customerId(paymentIntent.getCustomer())
                 .amount(paymentIntent.getAmount())
                 .currency(paymentIntent.getCurrency())
-                .type(StripeEventEnum.PAYMENT_INTENT_SUCCEEDED)
+                .stripeEventEnum(StripeEventEnum.PAYMENT_INTENT_SUCCEEDED)
                 .build();
     }
 

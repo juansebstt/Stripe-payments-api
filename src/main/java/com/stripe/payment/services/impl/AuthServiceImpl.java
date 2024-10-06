@@ -1,6 +1,5 @@
 package com.stripe.payment.services.impl;
 
-import com.stripe.exception.StripeException;
 import com.stripe.payment.common.dto.AuthResponseDto;
 import com.stripe.payment.common.dto.UserRequest;
 import com.stripe.payment.common.entities.UserModel;
@@ -10,6 +9,7 @@ import com.stripe.payment.services.StripeService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -21,6 +21,7 @@ public class AuthServiceImpl implements AuthService {
         this.stripeService = stripeService;
         this.userRepository = userRepository;
     }
+
 
     @Override
     public AuthResponseDto createUser(UserRequest userRequest) {
@@ -36,7 +37,9 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new RuntimeException("Error creating user"));
     }
 
+
     private UserModel setUserCustomerAndProduct(UserModel userModel) {
+
         var customerCreated = stripeService.createCustomer(userModel.getEmail());
         var productCreated = stripeService.createProduct(userModel.getName());
         stripeService.createPrice(productCreated.getId());

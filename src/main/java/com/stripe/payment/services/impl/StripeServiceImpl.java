@@ -1,5 +1,6 @@
 package com.stripe.payment.services.impl;
 
+import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -27,9 +28,10 @@ public class StripeServiceImpl implements StripeService {
     private final List<StripeStrategy> stripeStrategies;
 
     public StripeServiceImpl(
-            @Value("${stripe.endpoint.secret}") String endpointSecret,
-            List<StripeStrategy> stripeStrategies) {
+            @Value("${stripe.endpoint.secret}") String endpointSecret, List<StripeStrategy> stripeStrategies,
+            @Value("${stripe.secret.key}") String secretKey) {
 
+        Stripe.apiKey = secretKey;
         this.endpointSecret = endpointSecret;
         this.stripeStrategies = Collections.unmodifiableList(stripeStrategies);
     }
@@ -90,6 +92,7 @@ public class StripeServiceImpl implements StripeService {
         var createPrice = PriceCreateParams.builder()
                 .setCurrency("usd")
                 .setProduct(productId)
+                .setUnitAmount(500L)
                 .build();
 
         try {

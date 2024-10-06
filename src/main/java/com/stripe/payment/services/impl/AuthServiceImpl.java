@@ -28,15 +28,27 @@ public class AuthServiceImpl implements AuthService {
         return Optional.of(userRequest)
                 .map(this::mapToEntity)
                 .map(this::setUserCustomerAndProduct)
-                .orElseThrow(() -> new StripeException("Error creating user"));
+                .map(userRepository::save)
+                .map(userModel -> AuthResponseDto.builder()
+                        .customerId(userModel.getCustomerId())
+                        .productId(userModel.getProductId())
+                        .build())
+                .orElseThrow(() -> new RuntimeException("Error creating user"));
     }
 
     private UserModel setUserCustomerAndProduct(UserModel userModel) {
+        var customerCreated = stripeService.createCustomer(userModel.getEmail());
+        var productCreated = stripeService.createProduct(userModel.getName());
+        stripeService.createPrice(productCreated.getId());
 
+        userModel.setProductId(productCreated.getId());
+        userModel.setCustomerId(customerCreated.getId());
+
+        return userModel;
     }
 
     private UserModel mapToEntity(UserRequest userRequest) {
-        
+
         return UserModel.builder()
                 .name(userRequest.getName())
                 .email(userRequest.getEmail())

@@ -1,8 +1,15 @@
 package com.stripe.payment.services.impl;
 
 import com.stripe.exception.SignatureVerificationException;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
+import com.stripe.model.Price;
+import com.stripe.model.Product;
 import com.stripe.net.Webhook;
 import com.stripe.model.Event;
+import com.stripe.param.CustomerCreateParams;
+import com.stripe.param.PriceCreateParams;
+import com.stripe.param.ProductCreateParams;
 import com.stripe.payment.services.StripeService;
 import com.stripe.payment.strategy.StripeStrategy;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +54,47 @@ public class StripeServiceImpl implements StripeService {
         try {
             return Webhook.constructEvent(payload, stripeHeader, endpointSecret);
         } catch (SignatureVerificationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Customer createCustomer(String email) {
+        var customerCreateParams = CustomerCreateParams.builder()
+                .setEmail(email)
+                .build();
+
+        try {
+            return Customer.create(customerCreateParams);
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Product createProduct(String name) {
+        var productCreateParams = ProductCreateParams.builder()
+                .setName(name)
+                .setType(ProductCreateParams.Type.SERVICE)
+                .build();
+
+        try {
+            return Product.create(productCreateParams);
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Price createPrice(String productId) {
+        var createPrice = PriceCreateParams.builder()
+                .setCurrency("usd")
+                .setProduct(productId)
+                .build();
+
+        try {
+            return Price.create(createPrice);
+        } catch (StripeException e) {
             throw new RuntimeException(e);
         }
     }

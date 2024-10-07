@@ -1,6 +1,9 @@
 package com.stripe.payment.controllers;
 
 import com.stripe.payment.common.constants.ApiPathConstants;
+import com.stripe.payment.common.dto.CheckoutRequest;
+import com.stripe.payment.common.dto.CheckoutResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,4 +17,7 @@ public interface StripeApi {
     ResponseEntity<Void> stripeWebhook(
             @RequestBody String payload,
             @RequestHeader("Stripe-signature") String stripeHeader);
+
+    @PostMapping("/checkout")
+    ResponseEntity<CheckoutResponse> createCheckout(@RequestBody @Valid CheckoutRequest checkoutRequest);
 }

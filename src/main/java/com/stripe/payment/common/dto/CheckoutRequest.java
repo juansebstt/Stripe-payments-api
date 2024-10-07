@@ -1,5 +1,6 @@
 package com.stripe.payment.common.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -9,6 +10,10 @@ import lombok.*;
 @Builder
 public class CheckoutRequest {
 
-    private String urlPayment;
+    @NotNull
+    private String customerId;
+
+    @NotNull
+    private String productId;
 
 }

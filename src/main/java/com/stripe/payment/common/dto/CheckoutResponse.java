@@ -10,10 +10,6 @@ import lombok.*;
 @Builder
 public class CheckoutResponse {
 
-    @NotNull
-    private String customerId;
-
-    @NotNull
-    private String paymentId;
+    private String urlPayment;
 
 }

@@ -14,4 +14,5 @@ public interface AuthService {
      * @return the string
      */
     String createUser(UserRequest userRequest);
+
 }

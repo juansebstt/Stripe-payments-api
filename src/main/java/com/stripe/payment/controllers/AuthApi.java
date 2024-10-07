@@ -21,4 +21,5 @@ public interface AuthApi {
      */
     @PostMapping
     ResponseEntity<String> createUser(@RequestBody @Valid UserRequest userRequest);
+
 }

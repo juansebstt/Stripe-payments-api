@@ -19,7 +19,7 @@ public interface StripeService {
     void manageWebhook(Event event);
 
     /**
-     * Construct event event.
+     * Construct Event.
      *
      * @param payload      the payload
      * @param stripeHeader the stripe header
@@ -44,7 +44,7 @@ public interface StripeService {
     Product createProduct(String name);
 
     /**
-     * Create price price.
+     * Create Price
      *
      * @param productId the product id
      * @return the price

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+
 /**
  * The type Stripe strategy checkout completed.
  */
@@ -41,12 +42,12 @@ public class StripeStrategyCheckoutCompleted implements StripeStrategy {
                 .map(payment -> setProductId(payment, session.getMetadata().get("product_id")))
                 .map(paymentRepository::save)
                 .map(given -> event)
-                .orElseThrow(() -> new RuntimeException("Proces failed"));
+                .orElseThrow(() -> new RuntimeException("Process failed"));
     }
 
     private Payment setProductId(Payment payment, String productId) {
         payment.setProductId(productId);
-        payment.setStripeEventEnum(StripeEventEnum.CHECKOUT_SESSION_COMPLETED);
+        payment.setType(StripeEventEnum.CHECKOUT_SESSION_COMPLETED);
         return payment;
     }
 

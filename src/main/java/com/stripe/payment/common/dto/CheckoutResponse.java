@@ -1,8 +1,11 @@
 package com.stripe.payment.common.dto;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
+/**
+ * The type Checkout response.
+ */
 @Data
 @Builder
 public class CheckoutResponse {

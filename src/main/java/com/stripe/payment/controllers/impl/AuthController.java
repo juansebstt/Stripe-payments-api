@@ -28,6 +28,8 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<String> createUser(UserRequest userRequest) {
+
         return ResponseEntity.ok(authService.createUser(userRequest));
+
     }
 }

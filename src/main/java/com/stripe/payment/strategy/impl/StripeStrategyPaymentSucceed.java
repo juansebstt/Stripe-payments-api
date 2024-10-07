@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+
 /**
  * The type Stripe strategy payment succeed.
  */
@@ -47,7 +48,7 @@ public class StripeStrategyPaymentSucceed implements StripeStrategy {
                 .customerId(paymentIntent.getCustomer())
                 .amount(paymentIntent.getAmount())
                 .currency(paymentIntent.getCurrency())
-                .stripeEventEnum(StripeEventEnum.PAYMENT_INTENT_SUCCEEDED)
+                .type(StripeEventEnum.PAYMENT_INTENT_SUCCEEDED)
                 .build();
     }
 

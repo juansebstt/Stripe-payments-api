@@ -4,6 +4,9 @@ import com.stripe.payment.common.enums.StripeEventEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The type Payment.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +18,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String paymentIntentId;
     private String customerId;
@@ -24,6 +27,6 @@ public class Payment {
     private String currency;
 
     @Enumerated(EnumType.STRING)
-    private StripeEventEnum stripeEventEnum;
+    private StripeEventEnum type;
 
 }

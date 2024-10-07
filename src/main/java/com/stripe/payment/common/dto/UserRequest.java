@@ -2,8 +2,12 @@ package com.stripe.payment.common.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
+/**
+ * The type User request.
+ */
 @Data
 @Builder
 public class UserRequest {

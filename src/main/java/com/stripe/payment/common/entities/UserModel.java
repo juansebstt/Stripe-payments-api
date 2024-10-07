@@ -3,11 +3,15 @@ package com.stripe.payment.common.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The type User model.
+ */
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @Entity
 @Table(name = "users")
 public class UserModel {

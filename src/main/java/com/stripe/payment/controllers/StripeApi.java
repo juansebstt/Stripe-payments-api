@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 /**
  * The interface Stripe api.
  */
@@ -36,4 +37,5 @@ public interface StripeApi {
      */
     @PostMapping(value = "checkout")
     ResponseEntity<CheckoutResponse> createCheckout(@RequestBody @Valid CheckoutRequest checkoutRequest);
+
 }

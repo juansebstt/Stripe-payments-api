@@ -7,6 +7,7 @@ import com.stripe.payment.services.StripeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * The type Stripe controller.
  */
@@ -22,19 +23,24 @@ public class StripeController implements StripeApi {
     public StripeController(StripeService stripeService) {
 
         this.stripeService = stripeService;
+
     }
 
     @Override
     public ResponseEntity<Void> stripeWebhook(String payload, String stripeHeader) {
+
         var event = stripeService.constructEvent(payload, stripeHeader);
         stripeService.manageWebhook(event);
 
         return ResponseEntity.noContent().build();
+
     }
 
     @Override
     public ResponseEntity<CheckoutResponse> createCheckout(CheckoutRequest checkoutRequest) {
+
         return ResponseEntity.ok(stripeService.createCheckout(checkoutRequest));
+
     }
 }
 

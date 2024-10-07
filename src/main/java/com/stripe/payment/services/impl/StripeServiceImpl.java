@@ -113,9 +113,9 @@ public class StripeServiceImpl implements StripeService {
     public Price createPrice(String productId) {
 
         var createPrice = PriceCreateParams.builder()
-                .setCurrency("eur")
+                .setCurrency("USD")
                 .setProduct(productId)
-                .setUnitAmount(4000L)
+                .setUnitAmount(10000L)
                 .build();
 
         try {

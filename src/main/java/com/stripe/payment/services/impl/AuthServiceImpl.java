@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+/**
+ * The type Auth service.
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;

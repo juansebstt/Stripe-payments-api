@@ -10,15 +10,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * The interface Stripe api.
+ */
 @RequestMapping(ApiPathConstants.V1_ROUTE + ApiPathConstants.STRIPE_ROUTE)
 public interface StripeApi {
-
-    @PostMapping("/webhook")
+    /**
+     * Stripe webhook response entity.
+     *
+     * @param payload      the payload
+     * @param stripeHeader the stripe header
+     * @return the response entity
+     */
+    @PostMapping(value = "/webhook")
     ResponseEntity<Void> stripeWebhook(
             @RequestBody String payload,
-            @RequestHeader("Stripe-signature") String stripeHeader);
+            @RequestHeader("Stripe-Signature") String stripeHeader
+    );
 
-    @PostMapping("/checkout")
+    /**
+     * Create checkout response entity.
+     *
+     * @param checkoutRequest the checkout request
+     * @return the response entity
+     */
+    @PostMapping(value = "checkout")
     ResponseEntity<CheckoutResponse> createCheckout(@RequestBody @Valid CheckoutRequest checkoutRequest);
-
 }

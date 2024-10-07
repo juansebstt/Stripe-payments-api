@@ -15,7 +15,6 @@ import java.util.Optional;
  */
 @Component
 public class StripeStrategyPaymentSucceed implements StripeStrategy {
-
     private final PaymentRepository paymentRepository;
 
     /**
@@ -24,19 +23,16 @@ public class StripeStrategyPaymentSucceed implements StripeStrategy {
      * @param paymentRepository the payment repository
      */
     public StripeStrategyPaymentSucceed(PaymentRepository paymentRepository) {
-
         this.paymentRepository = paymentRepository;
     }
 
     @Override
     public boolean isApplicable(Event event) {
-
         return StripeEventEnum.PAYMENT_INTENT_SUCCEEDED.value.equals(event.getType());
     }
 
     @Override
     public Event process(Event event) {
-
         return Optional.of(event)
                 .map(this::deserialize)
                 .map(this::mapToEntity)
@@ -46,7 +42,6 @@ public class StripeStrategyPaymentSucceed implements StripeStrategy {
     }
 
     private Payment mapToEntity(PaymentIntent paymentIntent) {
-
         return Payment.builder()
                 .paymentIntentId(paymentIntent.getId())
                 .customerId(paymentIntent.getCustomer())
@@ -57,7 +52,6 @@ public class StripeStrategyPaymentSucceed implements StripeStrategy {
     }
 
     private PaymentIntent deserialize(Event event) {
-
         return (PaymentIntent) event.getDataObjectDeserializer().getObject()
                 .orElseThrow(() -> new RuntimeException("Object cant be parsed"));
     }

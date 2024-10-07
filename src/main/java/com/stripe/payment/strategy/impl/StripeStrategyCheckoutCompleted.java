@@ -15,7 +15,6 @@ import java.util.Optional;
  */
 @Component
 public class StripeStrategyCheckoutCompleted implements StripeStrategy {
-
     private final PaymentRepository paymentRepository;
 
     /**
@@ -24,14 +23,11 @@ public class StripeStrategyCheckoutCompleted implements StripeStrategy {
      * @param paymentRepository the payment repository
      */
     public StripeStrategyCheckoutCompleted(PaymentRepository paymentRepository) {
-
         this.paymentRepository = paymentRepository;
-
     }
 
     @Override
     public boolean isApplicable(Event event) {
-
         return StripeEventEnum.CHECKOUT_SESSION_COMPLETED.value.equals(event.getType());
     }
 
@@ -45,20 +41,16 @@ public class StripeStrategyCheckoutCompleted implements StripeStrategy {
                 .map(payment -> setProductId(payment, session.getMetadata().get("product_id")))
                 .map(paymentRepository::save)
                 .map(given -> event)
-                .orElseThrow(() -> new RuntimeException("Process failed"));
+                .orElseThrow(() -> new RuntimeException("Proces failed"));
     }
 
     private Payment setProductId(Payment payment, String productId) {
-
         payment.setProductId(productId);
-
         payment.setStripeEventEnum(StripeEventEnum.CHECKOUT_SESSION_COMPLETED);
-
         return payment;
     }
 
     private Session deserialize(Event event) {
-
         return (Session) event.getDataObjectDeserializer()
                 .getObject()
                 .orElseThrow(() -> new RuntimeException("Error Deserializing"));

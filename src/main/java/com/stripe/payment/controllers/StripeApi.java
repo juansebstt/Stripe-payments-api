@@ -20,4 +20,5 @@ public interface StripeApi {
 
     @PostMapping("/checkout")
     ResponseEntity<CheckoutResponse> createCheckout(@RequestBody @Valid CheckoutRequest checkoutRequest);
+
 }

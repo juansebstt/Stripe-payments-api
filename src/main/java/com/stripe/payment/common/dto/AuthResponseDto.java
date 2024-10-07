@@ -11,4 +11,5 @@ public class AuthResponseDto {
 
     private String customerId;
     private String productId;
+
 }

@@ -18,7 +18,6 @@ import com.stripe.payment.common.dto.CheckoutRequest;
 import com.stripe.payment.common.dto.CheckoutResponse;
 import com.stripe.payment.services.StripeService;
 import com.stripe.payment.strategy.StripeStrategy;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +58,7 @@ public class StripeServiceImpl implements StripeService {
     }
 
     private Event processStrategy(Event given) {
+
         return stripeStrategies.stream()
                 .filter(stripeStrategy -> stripeStrategy.isApplicable(given))
                 .findFirst()
@@ -68,10 +68,12 @@ public class StripeServiceImpl implements StripeService {
                 })
                 .map(stripeStrategy -> stripeStrategy.process(given))
                 .orElseGet(Event::new);
+
     }
 
     @Override
     public Event constructEvent(String payload, String stripeHeader) {
+
         try {
             return Webhook.constructEvent(payload, stripeHeader, endpointSecret);
         } catch (SignatureVerificationException e) {
@@ -81,6 +83,7 @@ public class StripeServiceImpl implements StripeService {
 
     @Override
     public Customer createCustomer(String email) {
+
         var customerCreateParams = CustomerCreateParams.builder()
                 .setEmail(email)
                 .build();
@@ -94,6 +97,7 @@ public class StripeServiceImpl implements StripeService {
 
     @Override
     public Product createProduct(String name) {
+
         var productCreate = ProductCreateParams.builder()
                 .setName(name)
                 .setType(ProductCreateParams.Type.SERVICE)
@@ -108,6 +112,7 @@ public class StripeServiceImpl implements StripeService {
 
     @Override
     public Price createPrice(String productId) {
+
         var createPrice = PriceCreateParams.builder()
                 .setCurrency("eur")
                 .setProduct(productId)
@@ -123,6 +128,7 @@ public class StripeServiceImpl implements StripeService {
 
     @Override
     public CheckoutResponse createCheckout(CheckoutRequest checkoutRequest) {
+
         var priceId = getPriceIdForProduct(checkoutRequest.getProductId());
         SessionCreateParams sessionCreateParams = getSessionCreateParams(checkoutRequest, priceId);
 
@@ -139,6 +145,7 @@ public class StripeServiceImpl implements StripeService {
     }
 
     private SessionCreateParams getSessionCreateParams(CheckoutRequest checkoutRequest, String priceId) {
+
         return SessionCreateParams.builder()
                 .setCustomer(checkoutRequest.getCustomerId())
                 .setSuccessUrl("http://localhost:8080")
@@ -154,12 +161,16 @@ public class StripeServiceImpl implements StripeService {
     }
 
     private Map<String, Object> extraMetadata(String productId) {
+
         Map<String, Object> metadata = new HashMap<>();
         metadata.put("product_id", productId);
+
         return metadata;
+
     }
 
     private String getPriceIdForProduct(String productId) {
+
         List<Price> prices = null;
 
         try {

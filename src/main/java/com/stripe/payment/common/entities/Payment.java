@@ -25,4 +25,5 @@ public class Payment {
 
     @Enumerated(EnumType.STRING)
     private StripeEventEnum stripeEventEnum;
+
 }

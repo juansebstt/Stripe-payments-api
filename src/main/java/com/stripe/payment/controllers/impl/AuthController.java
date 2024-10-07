@@ -21,4 +21,5 @@ public class AuthController implements AuthApi {
     public ResponseEntity<AuthResponseDto> createUser(UserRequest userRequest) {
         return ResponseEntity.ok(authService.createUser(userRequest));
     }
+
 }

@@ -26,6 +26,7 @@ public class StripeStrategyCheckoutCompleted implements StripeStrategy {
     public StripeStrategyCheckoutCompleted(PaymentRepository paymentRepository) {
 
         this.paymentRepository = paymentRepository;
+
     }
 
     @Override

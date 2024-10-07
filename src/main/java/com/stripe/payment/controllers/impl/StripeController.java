@@ -14,10 +14,12 @@ public class StripeController implements StripeApi {
 
     public StripeController(StripeService stripeService) {
         this.stripeService = stripeService;
+
     }
 
     @Override
     public ResponseEntity<Void> stripeWebhook(String payload, String stripeHeader) {
+
         var event = stripeService.constructEvent(payload, stripeHeader);
         stripeService.manageWebhook(event);
 
@@ -28,4 +30,5 @@ public class StripeController implements StripeApi {
     public ResponseEntity<CheckoutResponse> createCheckout(CheckoutRequest checkoutRequest) {
         return ResponseEntity.ok(stripeService.createCheckout(checkoutRequest));
     }
+
 }

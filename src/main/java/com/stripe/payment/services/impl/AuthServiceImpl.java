@@ -20,6 +20,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthServiceImpl(StripeService stripeService, UserRepository userRepository) {
         this.stripeService = stripeService;
         this.userRepository = userRepository;
+
     }
 
 
@@ -35,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
                         .productId(userModel.getProductId())
                         .build())
                 .orElseThrow(() -> new RuntimeException("Error creating user"));
+
     }
 
 
@@ -48,6 +50,7 @@ public class AuthServiceImpl implements AuthService {
         userModel.setCustomerId(customerCreated.getId());
 
         return userModel;
+
     }
 
     private UserModel mapToEntity(UserRequest userRequest) {

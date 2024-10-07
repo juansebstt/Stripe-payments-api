@@ -30,3 +30,4 @@ public class Payment {
     private StripeEventEnum type;
 
 }
+

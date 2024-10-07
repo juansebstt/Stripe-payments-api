@@ -1,7 +1,6 @@
 package com.stripe.payment.controllers;
 
 import com.stripe.payment.common.constants.ApiPathConstants;
-import com.stripe.payment.common.dto.AuthResponseDto;
 import com.stripe.payment.common.dto.UserRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface AuthApi {
 
     @PostMapping
-    ResponseEntity<AuthResponseDto> createUser(@RequestBody @Valid UserRequest userRequest);
+    ResponseEntity<String> createUser(@RequestBody @Valid UserRequest userRequest);
 
 }

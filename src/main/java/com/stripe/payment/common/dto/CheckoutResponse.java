@@ -3,10 +3,7 @@ package com.stripe.payment.common.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
 public class CheckoutResponse {
 

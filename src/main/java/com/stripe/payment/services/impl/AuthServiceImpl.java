@@ -1,6 +1,5 @@
 package com.stripe.payment.services.impl;
 
-import com.stripe.payment.common.dto.AuthResponseDto;
 import com.stripe.payment.common.dto.UserRequest;
 import com.stripe.payment.common.entities.UserModel;
 import com.stripe.payment.repositories.UserRepository;
@@ -13,32 +12,32 @@ import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-
-    private final StripeService stripeService;
     private final UserRepository userRepository;
+    private final StripeService stripeService;
 
-    public AuthServiceImpl(StripeService stripeService, UserRepository userRepository) {
-        this.stripeService = stripeService;
+    /**
+     * Instantiates a new Auth service.
+     *
+     * @param userRepository the user repository
+     * @param stripeService  the stripe service
+     */
+    public AuthServiceImpl(UserRepository userRepository, StripeService stripeService) {
+
         this.userRepository = userRepository;
+        this.stripeService = stripeService;
 
     }
 
-
     @Override
-    public AuthResponseDto createUser(UserRequest userRequest) {
+    public String createUser(UserRequest userRequest) {
 
         return Optional.of(userRequest)
                 .map(this::mapToEntity)
                 .map(this::setUserCustomerAndProduct)
                 .map(userRepository::save)
-                .map(userModel -> AuthResponseDto.builder()
-                        .customerId(userModel.getCustomerId())
-                        .productId(userModel.getProductId())
-                        .build())
-                .orElseThrow(() -> new RuntimeException("Error creating user"));
-
+                .map(UserModel::getCustomerId)
+                .orElseThrow(() -> new RuntimeException("Error Creating User"));
     }
-
 
     private UserModel setUserCustomerAndProduct(UserModel userModel) {
 
@@ -46,18 +45,16 @@ public class AuthServiceImpl implements AuthService {
         var productCreated = stripeService.createProduct(userModel.getName());
         stripeService.createPrice(productCreated.getId());
 
-        userModel.setProductId(productCreated.getId());
         userModel.setCustomerId(customerCreated.getId());
+        userModel.setProductId(productCreated.getId());
 
         return userModel;
-
     }
 
     private UserModel mapToEntity(UserRequest userRequest) {
-
         return UserModel.builder()
-                .name(userRequest.getName())
                 .email(userRequest.getEmail())
+                .name(userRequest.getName())
                 .password(userRequest.getPassword())
                 .build();
     }

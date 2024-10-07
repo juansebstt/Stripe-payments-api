@@ -53,6 +53,7 @@ public class StripeStrategyCheckoutCompleted implements StripeStrategy {
         payment.setProductId(productId);
 
         payment.setStripeEventEnum(StripeEventEnum.CHECKOUT_SESSION_COMPLETED);
+
         return payment;
     }
 
